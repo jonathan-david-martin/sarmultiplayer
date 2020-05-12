@@ -1,6 +1,3 @@
-/**
- * Created by jonathanmar on 12/25/16.
- */
 
 var hostname = '0.0.0.0';
 var port = process.env.PORT || 3000;
@@ -16,128 +13,148 @@ app.get('/', function(req, res){
     res.sendfile('index.html');
 });
 
+var x=200;
+var y=400;
+
+var a=5;
+var b=15;
+
+var playerIdArr = [];
+
+var a;
+var b;
+
+var player1rightPressed = false;
+var player1leftPressed = false;
+var player1upPressed = false;
+var player1downPressed = false;
+
 var players = [];
 
-var player = function(x,y,angle,speed,velocityx,velocityy,socketid){
-    
-    this.x = x;
-    this.y = y;
-    this.angle = angle;
-    this.speed = speed;
-    this.velocityx = velocityx;
-    this.velocityy = velocityy;
-    this.socketid = socketid;
+class player{
+
+    constructor(x,y,socketid,up,down,left,right){
+        this.x=x;
+        this.y=y;
+        this.socketid=socketid;
+        this.up=false;
+        this.down=false;
+        this.left=false;
+        this.right=false;
+    }
+
 }
-
-//placeholder - this function will just loop through players looking for a matching socket id
-var idLookup = function(id,playersArray){
-    
-}
-
-
-io.on('connection', function(socket) {
-    
-    socket.on('phaser create function initiated', function(msg){
-        
-        newplayer = new player(400,100,0,0,0,0,socket.id);
-        players.push(newplayer);
-        io.emit('server knows phaser create initiated', players);
-        
-    });
-
-    socket.on('spacebar', function(msg){
-        
-        io.emit('spacebar',msg);
-    });
-
-    socket.on('left', function(msg){
-        for(i=0;i<players.length;i++){
-            if(players[i].socketid == msg){
-                players[i].angle -= 5;
-            }
-        }
-        io.emit('update',players);
-    });
-
-    socket.on('right', function(msg){
-        for(i=0;i<players.length;i++){
-            if(players[i].socketid == msg){
-                players[i].angle += 5;
-            }
-        }
-        io.emit('update',players);
-    });
-
-    socket.on('up', function(msg){
-
-        for(i=0;i<players.length;i++){
-            if(players[i].socketid == msg){
-                players[i].speed = 200;
-            }
-        }
-        io.emit('update',players);
-
-    });
-
-    socket.on('down', function(msg){
-        for(i=0;i<players.length;i++){
-            if(players[i].socketid == msg){
-                players[i].y += 5;
-            }
-        }
-        io.emit('update',players);
-    });
-    
-   socket.on('phaserupdate', function(data){
-    for(i=0;i<players.length;i++){
-                players[i].speed = data[i].speed;
-        }
-        io.emit('update',players);
-
-    }); 
-
-    socket.on('velocity update', function(data){
-
-        for(i=0;i<players.length;i++){
-          if(players[i].socketid == data[i].socketid) {
-            players[i].angle     = data[i].angle;
-            players[i].x         = data[i].x;
-            players[i].y         = data[i].y;
-            players[i].velocityx = data[i].velocityx;
-            players[i].velocityy = data[i].velocityy;
-
-          }
-        }
-
-        io.emit('velocity update',players);
-
-    });
-
-
-    socket.on('disconnect',function(){
-        for(i=0;i<players.length;i++){
-            if(players[i].socketid == socket.id){
-                players[i].x = -999;
-                players[i].y = -999;
-            }
-        }
-        var disconnectedUsers = 0;
-        for(i=0;i<players.length;i++){
-            if(players[i].x == -999){
-                disconnectedUsers++;
-            }
-
-        }
-        if(disconnectedUsers == players.length){
-            players = [];
-        }
-        io.emit('update',players);
-
-    });
-    
-});
-
 
 server.listen(port, hostname, function(){
     console.log('listening on ' + hostname + ':' + port);
 });
+
+
+// Register a callback function to run when we have an individual connection
+// This is run for each individual user that connects
+io.sockets.on('connection',
+    // We are given a websocket object in our function
+    function (socket) {
+
+        setInterval(function(){
+
+            for(let i = 0;i<players.length;i++) {
+
+                    if (players[i].up) {
+                        players[i].y -= 8;
+                        console.log(y + " up");
+                    }
+                    if (players[i].down) {
+                        players[i].y += 1;
+                        console.log(y + " down");
+                    }
+                    if (players[i].left) {
+                        players[i].x -= 1;
+                        console.log(x + " left");
+                    }
+                    if (players[i].right) {
+                        players[i].x += 1;
+                        console.log(x + " right");
+                    }
+
+                    if (players[i].y < 400) {
+                        players[i].y += 2;
+                    }
+                }
+
+
+
+
+            io.sockets.emit('update', players);
+
+
+
+        },1000/60);
+
+        console.log("We have a new client: " + socket.id);
+        socket.emit('myid',socket.id);
+
+        players.push(new player(300,275,socket.id));
+        //console.log(players);
+
+        io.emit('new player', players);
+
+        playerIdArr.push(socket.id);
+
+        console.log(playerIdArr);
+
+        // When this user emits, client side: socket.emit('otherevent',some data);
+        socket.on('controls',
+            function(data) {
+                // Data comes in as whatever was sent, including objects
+                console.log("Received: controls " + data);
+
+                // Send it to all other clients including sender
+                //if(socket.id === playerIdArr[0]) {
+
+                for(let i = 0;i<players.length;i++) {
+                    if(players[i].socketid === data.socketid){
+                        if (data.controls === 'player1upPressed') {
+                            players[i].up = data.bool;
+                        }
+
+                        if (data.controls === 'player1downPressed') {
+                            players[i].down = data.bool;
+                        }
+
+                        if (data.controls === 'player1leftPressed') {
+                            players[i].left = data.bool;
+                        }
+
+                        if (data.controls === 'player1rightPressed') {
+                            players[i].right = data.bool;
+                        }
+
+                    }
+
+                }
+
+
+
+
+                // This is a way to send to everyone including sender
+                // io.sockets.emit('message', "this goes to everyone");
+
+            }
+        );
+
+        socket.on('disconnect', function() {
+            console.log("Client has disconnected");
+            for(let i = 0;i<players.length;i++){
+                if(players===socket.id){
+                    players.splice(i, 1);
+                }
+            }
+        });
+    }
+);
+
+
+
+
+module.exports = app;
