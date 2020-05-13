@@ -82,7 +82,7 @@ io.sockets.on('connection',
                     }
                 }
 
-            if(players.length===0){
+            if(players.length===0 || scrollX < -6500){
                 scrollX = 800;
             }
 
