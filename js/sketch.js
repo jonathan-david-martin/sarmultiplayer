@@ -17,6 +17,8 @@ var scrollY = 400;
 var rightButtonX = 100;
 var rightButtonY = 100;
 
+var upButtonX;
+
 //controls
 var player1rightPressed = false;
 var player1leftPressed = false;
@@ -221,9 +223,11 @@ function draw() {
     //textFont('Helvetica')
     text("right", rightButtonX + 20, rightButtonY + 60)
 
+    upButtonX = rightButtonX+200-50;
+
     //this is the up button
     fill(242, 255, 0)
-    rect(rightButtonX+200-50, rightButtonY, 100, 100)
+    rect(upButtonX, rightButtonY, 100, 100)
     fill(0)
     text("up", rightButtonX+230-50, rightButtonY + 60);
 
@@ -246,7 +250,7 @@ function draw() {
     }
 
     //see if the mouse clicks the up button
-    if (mouseIsPressed && mouseX > 400 && mouseY > 100 && mouseX < 500 && mouseY < 200) {
+    if (mouseIsPressed && mouseX > upButtonX && mouseY > 100 && mouseX < upButtonX+100 && mouseY < 200) {
         let data = {
             controls: 'player1upPressed',
             bool: true,
