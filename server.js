@@ -13,27 +13,16 @@ app.get('/', function(req, res){
     res.sendfile('index.html');
 });
 
-var x=200;
+var x=50;
 var y=400;
 
-var a=5;
-var b=15;
-
-var playerIdArr = [];
-
-var a;
-var b;
-
-var player1rightPressed = false;
-var player1leftPressed = false;
-var player1upPressed = false;
-var player1downPressed = false;
+var scrollX=800;
 
 var players = [];
 
 class player{
 
-    constructor(x,y,socketid,up,down,left,right){
+    constructor(x,y,socketid,up,down,left,right,score){
         this.x=x;
         this.y=y;
         this.socketid=socketid;
@@ -41,6 +30,7 @@ class player{
         this.down=false;
         this.left=false;
         this.right=false;
+        this.score=1000;
     }
 
 }
@@ -48,6 +38,15 @@ class player{
 server.listen(port, hostname, function(){
     console.log('listening on ' + hostname + ':' + port);
 });
+
+function idMatch(socketid){
+    for(let i = 0;i<players.length;i++) {
+        if (players[i].socketid === socketid) {
+            return true;
+        }
+    }
+    return false;
+}
 
 
 // Register a callback function to run when we have an individual connection
@@ -58,23 +57,24 @@ io.sockets.on('connection',
 
         setInterval(function(){
 
+            scrollX -=1;
             for(let i = 0;i<players.length;i++) {
 
                     if (players[i].up) {
                         players[i].y -= 8;
-                        console.log(y + " up");
+                        //console.log(y + " up");
                     }
                     if (players[i].down) {
                         players[i].y += 1;
-                        console.log(y + " down");
+                        //console.log(y + " down");
                     }
                     if (players[i].left) {
                         players[i].x -= 1;
-                        console.log(x + " left");
+                        //console.log(x + " left");
                     }
                     if (players[i].right) {
                         players[i].x += 1;
-                        console.log(x + " right");
+                        //console.log(x + " right");
                     }
 
                     if (players[i].y < 400) {
@@ -82,32 +82,39 @@ io.sockets.on('connection',
                     }
                 }
 
-
-
+            if(players.length===0){
+                scrollX = 800;
+            }
 
             io.sockets.emit('update', players);
-
-
+            io.sockets.emit('updateScrollX', scrollX);
 
         },1000/60);
 
         console.log("We have a new client: " + socket.id);
         socket.emit('myid',socket.id);
 
-        players.push(new player(300,275,socket.id));
-        //console.log(players);
 
-        io.emit('new player', players);
+        if(!idMatch(socket.id)) {
+            players.push(new player(50, 400, socket.id,false,false,false,false,1000));
+            //console.log(players);
 
-        playerIdArr.push(socket.id);
+            io.emit('new player', players);
+        }
 
-        console.log(playerIdArr);
+        socket.on('score',
+            function(data) {
+                let i = data.playerNumber;
+                players[i].score = data.score;
+            }
+        );
+
 
         // When this user emits, client side: socket.emit('otherevent',some data);
         socket.on('controls',
             function(data) {
                 // Data comes in as whatever was sent, including objects
-                console.log("Received: controls " + data);
+                //console.log("Received: controls " + data);
 
                 // Send it to all other clients including sender
                 //if(socket.id === playerIdArr[0]) {
@@ -146,10 +153,11 @@ io.sockets.on('connection',
         socket.on('disconnect', function() {
             console.log("Client has disconnected");
             for(let i = 0;i<players.length;i++){
-                if(players===socket.id){
+                if(players[i].socketid===socket.id){
                     players.splice(i, 1);
                 }
             }
+            io.sockets.emit('update', players);
         });
     }
 );
