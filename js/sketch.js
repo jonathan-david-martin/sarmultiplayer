@@ -8,6 +8,7 @@
 var song;
 var sound;
 var grumph;
+var level1 = "end of level 1"
 
 //coordinate variables
 var y = 400
@@ -93,6 +94,9 @@ function toggleSong() {
     if (!song.isPlaying()) {
         song.play();
     }
+    else{
+        song.stop();
+    }
 }
 
 function setup() {
@@ -128,7 +132,7 @@ function setup() {
     fontCol = color(0);
 
 
-    submit_button = createButton('start music');
+    submit_button = createButton('music on/off');
     submit_button.mousePressed(toggleSong);
     submit_button.style('display', 'table');
     submit_button.style('margin-left', '0%');
@@ -228,7 +232,7 @@ function draw() {
         }
     }
 
-    if (scrollX < -6600 + windowWidth) {
+    if (scrollX < -5000 + windowWidth) {
         if(grumph.isPlaying()) {
             grumph.stop();
         }
@@ -330,6 +334,17 @@ function draw() {
             textSize(100);
             text(game_name, windowWidth / 3, windowHeight / 2);
         }
+
+    // End of level 1
+    if (scrollX < -4360 && scrollX > -6000) {
+        //blue
+        fill(0,0,250)
+        rect(0, 0, windowWidth, windowHeight);
+
+        fill(255, 0, 0);
+        textSize(100);
+        text(level1, windowWidth / 3, windowHeight / 2);
+    }
 
 //end of draw loop
     }
