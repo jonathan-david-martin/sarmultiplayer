@@ -17,6 +17,8 @@ var y = 400;
 
 var scrollX = 800;
 
+var timerStarted = false;
+
 var players = [];
 
 class player {
@@ -55,9 +57,10 @@ io.sockets.on('connection',
     // We are given a websocket object in our function
     function (socket) {
 
+    if(!timerStarted) {
         setInterval(function () {
 
-            scrollX -= 2;
+            scrollX -= 3;
 
             for (let i = 0; i < players.length; i++) {
 
@@ -97,6 +100,8 @@ io.sockets.on('connection',
             io.sockets.emit('updateScrollX', scrollX);
 
         }, 1000 / 60);
+        timerStarted = true;
+    }
 
         console.log("We have a new client: " + socket.id);
         socket.emit('myid', socket.id);
@@ -105,9 +110,10 @@ io.sockets.on('connection',
         if (!idMatch(socket.id)) {
             players.push(new player(50, 400, socket.id, false, false, false, false, 1000));
             //console.log(players);
-
             io.emit('new player', players);
         }
+
+
 
         socket.on('score',
             function (data) {
