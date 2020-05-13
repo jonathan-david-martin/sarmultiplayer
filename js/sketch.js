@@ -257,13 +257,25 @@ function draw() {
 
     //see if mouse clicks the right button
     if (mouseIsPressed && mouseX > rightButtonX && mouseY > rightButtonY && mouseX < rightButtonX + 100 && mouseY < rightButtonY + 100) {
-        x += 20
+        let data = {
+            controls: 'player1rightPressed',
+            bool: true,
+            socketid: mysocketid
+        }
+        socket.emit('controls', data);
     }
 
     //see if the mouse clicks the up button
     if (mouseIsPressed && mouseX > 400 && mouseY > 100 && mouseX < 500 && mouseY < 200) {
-        y -= 30
+        let data = {
+            controls: 'player1upPressed',
+            bool: true,
+            socketid: mysocketid
+        }
+        socket.emit('controls', data);
     }
+
+
 
 
     for (var i = 0; i < players.length; i++) {
@@ -400,6 +412,22 @@ function draw() {
 
 
     }
+
+    function mouseReleased(){
+        let data = {
+            controls: 'player1upPressed',
+            bool: false,
+            socketid: mysocketid
+        }
+        socket.emit('controls', data);
+        let data2 = {
+            controls: 'player1rightPressed',
+            bool: false,
+            socketid: mysocketid
+        }
+        socket.emit('controls', data2);
+    }
+
 
     function keyReleased() {
         if (keyCode === UP_ARROW) {
