@@ -99,7 +99,7 @@ io.sockets.on('connection',
             io.sockets.emit('update', players);
             io.sockets.emit('updateScrollX', scrollX);
 
-        }, 1000 / 60);
+        }, 1000 / 80);
         timerStarted = true;
     }
 
