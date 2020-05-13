@@ -67,12 +67,13 @@ class player {
 
 
 function preload() {
+    song = loadSound('../assets/gamemusicmkr-med.mp3');
     bee = loadImage('../assets/bee.png')
     bee_transparent = loadImage('../assets/bee_transparent.png')
     rabbih = loadImage('../assets/harczstark.png')
     rabbik = loadImage('../assets/kroll1.png')
     books = loadImage('../assets/books.png')
-    song = loadSound('../assets/gamemusicmkr-med.mp3');
+
     ipad = loadImage('../assets/ipad.png')
     lockers = loadImage('../assets/lockers.png')
     apple = loadImage('../assets/apple.png')
@@ -86,6 +87,12 @@ function preload() {
     grumph.duration = 500;
     //set the playback rate
     grumph.rate(1.5);
+}
+
+function toggleSong() {
+    if (!song.isPlaying()) {
+        song.play();
+    }
 }
 
 function setup() {
@@ -117,16 +124,42 @@ function setup() {
         }
     );
 
+    col = color(80);
+    fontCol = color(0);
+
+
+    submit_button = createButton('start music');
+    submit_button.mousePressed(toggleSong);
+    submit_button.style('display', 'table');
+    submit_button.style('margin-left', '0%');
+    submit_button.style('margin-top', '0%');
+    submit_button.style('font-size', '20px');
+    submit_button.style('background-color', col);
+    submit_button.style('color', fontCol);
+
     createCanvas(windowWidth, windowHeight);
     fill(0);
+
     //play soundtrack as soon as game starts
-    song.play();
+    //song.loop();
+
+
 
 }
+
 
 function draw() {
 
     background(80);
+
+    if (song.isLoaded()) {
+        //env.triggerAttack(song);
+        touchStarted = true;
+    }
+
+    if (!song.isPlaying()) {
+        //song.play();
+    }
 
     for (var i = 0; i < players.length; i++) {
 
@@ -329,7 +362,7 @@ function draw() {
             y = 400;
             loop();
             if (!song.isPlaying()) {
-                song.play();
+                //song.play();
             }
 
         }
@@ -358,7 +391,7 @@ function draw() {
             y = 400;
             loop();
             if (!song.isPlaying()) {
-                song.play();
+                //song.play();
             }
         }
 
