@@ -179,7 +179,7 @@ function draw() {
 
 
     //this is the rate the object in the game scroll from right to left
-    scrollX -= 3;
+    //scrollX -= 3;
 
     //platform (the big rectangle the objects sit on)
     fill(242, 255, 0)
@@ -194,7 +194,9 @@ function draw() {
     }
 
     if (scrollX < -6600 + windowWidth) {
-        grumph.stop();
+        if(grumph.isPlaying()) {
+            grumph.stop();
+        }
     }
 
     //this code seem complicated, but it is just because the clay figure images face right. the push, pop, translate and scale code is just to make the images face the left
@@ -210,28 +212,6 @@ function draw() {
     }
     pop();
 
-
-    //the controls
-    if (keyIsPressed && keyCode === RIGHT_ARROW) {
-        x += 15
-    }
-
-    if (keyIsPressed && keyCode === LEFT_ARROW) {
-        x -= 15
-    }
-    if (keyIsPressed && keyCode === UP_ARROW) {
-        y -= 20
-    }
-
-    //gravity code
-    if (y < 400) {
-        y += 5;
-    }
-
-    //prevent the bee from going above the top
-    if (y < 10) {
-        y = 10;
-    }
 
     //this is the right button
     //x,y,width, height
