@@ -14,7 +14,7 @@ var y = 400
 var x = 50;
 var scrollX = 800;
 var scrollY = 400;
-var rightButtonX = 100;
+var rightButtonX = 150;
 var rightButtonY = 100;
 
 var upButtonX;
@@ -256,13 +256,13 @@ function draw() {
     //textFont('Helvetica')
     text("right", rightButtonX + 20, rightButtonY + 60)
 
-    upButtonX = rightButtonX+200-50;
+    upButtonX = rightButtonX+100;
 
     //this is the up button
     fill(242, 255, 0)
     rect(upButtonX, rightButtonY, 100, 100)
     fill(0)
-    text("up", rightButtonX+230-50, rightButtonY + 60);
+    text("up", rightButtonX+130, rightButtonY + 60);
 
     //restart button
     fill(200)

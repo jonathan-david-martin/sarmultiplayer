@@ -12,7 +12,7 @@ app.get('/', function (req, res) {
     res.sendfile('index.html');
 });
 
-var x = 50;
+var x = 40;
 var y = 400;
 
 var scrollX = 800;
@@ -108,7 +108,7 @@ io.sockets.on('connection',
 
 
         if (!idMatch(socket.id)) {
-            players.push(new player(50, 400, socket.id, false, false, false, false, 1000));
+            players.push(new player(40, 400, socket.id, false, false, false, false, 1000));
             //console.log(players);
             io.emit('new player', players);
         }
