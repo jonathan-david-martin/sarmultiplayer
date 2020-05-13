@@ -58,6 +58,7 @@ class player {
         this.left = false;
         this.right = false;
         this.score = 1000;
+        this.frameCount = 0;
     }
 
 }
@@ -133,7 +134,18 @@ function draw() {
         } else {
             image(bee_transparent, players[i].x, players[i].y, 100, 100)
         }
+
+        if(players[i].socketid === mysocketid) {
+            let data = {
+                frameCount: round(frameCount/10,0),
+                playerNumber: i
+            }
+            socket.emit('frameCount', data);
+        }
+
     }
+
+
 
     textFont('Righteous');
     //points
@@ -141,9 +153,14 @@ function draw() {
 
     for (var i = 0; i < players.length; i++) {
         fill(0);
-        text('player '+ i +': ' + players[i].score,100,40+20*i);
+        if(players[i].socketid === mysocketid) {
+            text('ME: ' + (players[i].score + players[i].frameCount), 100, 40 + 20 * i);
+        }
+        else{
+            text('player ' + i + ': ' + (players[i].score + players[i].frameCount), 100, 40 + 20 * i);
 
-        //console.log('player '+ i +': ' + players[i].score);
+        }
+
     }
 
     //player
@@ -295,7 +312,7 @@ function draw() {
                 pacman_died_sound.play();
             }
             textSize(40);
-            text('collision! oh no!', 100, 80);
+            text('oh no!', 100, 80);
             players[i].score -= 1;
             let data = {
                 score: players[i].score,

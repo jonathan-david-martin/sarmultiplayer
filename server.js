@@ -31,6 +31,7 @@ class player{
         this.left=false;
         this.right=false;
         this.score=1000;
+        this.frameCount = 0;
     }
 
 }
@@ -106,6 +107,15 @@ io.sockets.on('connection',
             function(data) {
                 let i = data.playerNumber;
                 players[i].score = data.score;
+            }
+        );
+
+        socket.on('frameCount',
+            function(data) {
+                let i = data.playerNumber;
+                if(players.length>i) {
+                    players[i].frameCount = data.frameCount;
+                }
             }
         );
 
