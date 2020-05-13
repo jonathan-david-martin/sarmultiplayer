@@ -14,7 +14,7 @@ var y = 400
 var x = 50;
 var scrollX = 800;
 var scrollY = 400;
-var rightButtonX = 200;
+var rightButtonX = 100;
 var rightButtonY = 100;
 
 //controls
@@ -223,9 +223,9 @@ function draw() {
 
     //this is the up button
     fill(242, 255, 0)
-    rect(400, 100, 100, 100)
+    rect(rightButtonX+200-50, rightButtonY, 100, 100)
     fill(0)
-    text("up", 433, 160)
+    text("up", rightButtonX+230-50, rightButtonY + 60);
 
     //restart button
     fill(200)

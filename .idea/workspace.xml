@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e7a02420-430d-40c1-9125-062ec171299a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/js/sketch.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/sketch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -64,8 +63,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/sketch.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="197" column="26" lean-forward="true" selection-start-line="197" selection-start-column="26" selection-end-line="197" selection-end-column="26" />
+            <state relative-caret-position="318">
+              <caret line="231" column="39" selection-start-line="231" selection-start-column="39" selection-end-line="231" selection-end-column="39" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -115,6 +114,7 @@
       <find>scroll</find>
       <find>if(y &lt;</find>
       <find>y &lt;</find>
+      <find>button</find>
     </findStrings>
     <replaceStrings>
       <replace>//noLoop</replace>
@@ -223,12 +223,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1589299570286</updated>
-      <workItem from="1589299572818" duration="22842000" />
+      <workItem from="1589299572818" duration="23418000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22842000" />
+    <option name="totallyTimeSpent" value="23418000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="46" y="63" width="1236" height="811" extended-state="0" />
@@ -302,8 +302,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/sketch.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="197" column="26" lean-forward="true" selection-start-line="197" selection-start-column="26" selection-end-line="197" selection-end-column="26" />
+        <state relative-caret-position="318">
+          <caret line="231" column="39" selection-start-line="231" selection-start-column="39" selection-end-line="231" selection-end-column="39" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
