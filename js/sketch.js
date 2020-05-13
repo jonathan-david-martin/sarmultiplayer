@@ -184,15 +184,15 @@ function draw() {
 
     textFont('Righteous');
     //points
-    textSize(20);
+    textSize(18);
 
     for (var i = 0; i < players.length; i++) {
         fill(0);
         if(players[i].socketid === mysocketid) {
-            text('ME: ' + (players[i].score + players[i].frameCount), 100, 40 + 20 * i);
+            text('me: ' + (players[i].score + players[i].frameCount), 20, 30 + 18 * i);
         }
         else{
-            text('player ' + i + ': ' + (players[i].score + players[i].frameCount), 100, 40 + 20 * i);
+            text('player ' + i + ': ' + (players[i].score + players[i].frameCount), 20, 30 + 18 * i);
 
         }
 
@@ -341,7 +341,7 @@ function draw() {
                 pacman_died_sound.play();
             }
             textSize(40);
-            text('oh no!', 100, 80);
+            text('oh no!', rightButtonX, 80);
             players[i].score -= 1;
             let data = {
                 score: players[i].score,
